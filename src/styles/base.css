@@ -291,7 +291,7 @@ button {
 }
 
 /* Nothing animates while its section is off screen (see pauseOffscreen) */
-[data-offscreen] *,
+[data-offscreen] *:not([data-sa]),
 [data-offscreen] *::before,
 [data-offscreen] *::after {
   animation-play-state: paused !important;

@@ -5,7 +5,10 @@ let lenis: Lenis | null = null
 export function startSmoothScroll() {
   if (typeof window === 'undefined') return () => {}
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (reduce) return () => {}
+  // Touch scrolling is already smooth and Lenis doesn't touch it, so on phones
+  // it would only add a loop running every frame. Leave it off there.
+  const touch = window.matchMedia('(pointer: coarse)').matches
+  if (reduce || touch) return () => {}
   lenis = new Lenis({ duration: 1.15, smoothWheel: true, autoRaf: true })
   return () => {
     lenis?.destroy()

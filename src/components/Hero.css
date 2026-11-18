@@ -168,6 +168,25 @@
   overflow: hidden;
   pointer-events: none;
 }
+/* Pops the dot in once the photo is ready. Time based, so it lives on its
+   own layer and never fights the scroll animation. */
+.hero__pop {
+  position: absolute;
+  inset: 0;
+  transform: scale(0);
+  will-change: transform;
+}
+.hero__pop.is-in {
+  animation: hero-pop 0.95s cubic-bezier(0.3, 0.7, 0.4, 1) both;
+}
+@keyframes hero-pop {
+  0% { transform: scale(0); }
+  55% { transform: scale(1.22); }
+  75% { transform: scale(0.94); }
+  90% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
 /* The round window. Scaled, never resized, so nothing repaints. */
 .hero__window {
   position: absolute;
@@ -203,6 +222,8 @@
 .hero__copy {
   position: absolute;
   z-index: 3;
+  opacity: 0;
+  will-change: transform, opacity;
   top: 0;
   bottom: 0;
   left: 0;
@@ -294,7 +315,7 @@
     width: auto;
     justify-content: flex-start;
     gap: 12px;
-    padding: 22px var(--gutter) calc(30px + env(safe-area-inset-bottom));
+    padding: 26px var(--gutter) calc(30px + env(safe-area-inset-bottom));
   }
   .hero__title {
     font-size: clamp(28px, 7.4vw, 44px);

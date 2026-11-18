@@ -223,6 +223,9 @@
   position: absolute;
   z-index: 3;
   opacity: 0;
+  /* Opaque, so if the photo ever stops a touch low it tucks under the copy
+     rather than the text being drawn over it */
+  background: var(--bone);
   will-change: transform, opacity;
   top: 0;
   bottom: 0;
@@ -315,7 +318,9 @@
     width: auto;
     justify-content: flex-start;
     gap: 12px;
-    padding: 26px var(--gutter) calc(30px + env(safe-area-inset-bottom));
+    /* No safe-area padding: the stage is 100svh, which already ends above
+       Safari's toolbar and the home indicator */
+    padding: 26px var(--gutter) 30px;
   }
   .hero__title {
     font-size: clamp(28px, 7.4vw, 44px);

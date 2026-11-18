@@ -209,10 +209,26 @@ export const TRACKS: Track[] = [
 // Segment boundaries always get a keyframe so the curve hits them exactly
 const FORCED: number[] = [...new Set<number>([...Object.values(T).flat(), 1])].sort((a, b) => a - b)
 
-/** Builds scroll-driven CSS keyframes that trace the frame() curves. */
+// Short, stable fingerprint of the measured layout
+function fingerprint(G: Geo, start: number, distance: number) {
+  const s = [...Object.values(G), start, distance].map((v) => (typeof v === 'number' ? v.toFixed(1) : String(v))).join('|')
+  let h = 5381
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0
+  return (h >>> 0).toString(36)
+}
+
+/**
+ * Builds scroll-driven CSS keyframes that trace the frame() curves.
+ *
+ * Keyframe names carry a fingerprint of the layout. Safari keeps running the
+ * old keyframes when a @keyframes rule is rewritten under the same name, so
+ * a fresh name is what makes it pick up a re-measured layout (after fonts
+ * load, for example).
+ */
 export function buildCss(G: Geo, start: number, distance: number) {
   const STEP = 0.002
   const out: string[] = []
+  const key = fingerprint(G, start, distance)
   for (const t of TRACKS) {
     const stops: string[] = []
     let last: number[] | null = null
@@ -239,8 +255,9 @@ export function buildCss(G: Geo, start: number, distance: number) {
       prevF = f
     }
     if (!stops[stops.length - 1].startsWith('100.000%')) emit(1, frame(G, 1))
-    out.push(`@keyframes ${t.name} { ${stops.join(' ')} }`)
-    out.push(`.hero--sda ${t.sel.split(',').map((s) => s.trim()).join(', .hero--sda ')} { animation-name: ${t.name}; }`)
+    const name = `${t.name}-${key}`
+    out.push(`@keyframes ${name} { ${stops.join(' ')} }`)
+    out.push(`.hero--sda ${t.sel.split(',').map((s) => s.trim()).join(', .hero--sda ')} { animation-name: ${name}; }`)
   }
   out.push(
     `.hero--sda [data-sa] { animation-duration: 1ms; animation-duration: auto; animation-timing-function: linear; animation-fill-mode: both; animation-timeline: scroll(root block); animation-range: ${start.toFixed(0)}px ${(start + distance).toFixed(0)}px; }`,

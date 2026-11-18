@@ -113,7 +113,8 @@ function HeroPinned() {
     document.fonts?.ready.then(measure)
     const ro = new ResizeObserver(measure)
     ro.observe(stage)
-    if (els.current.copy) ro.observe(els.current.copy)
+    // border-box, so padding changes (like iOS safe areas resolving late) count too
+    if (els.current.copy) ro.observe(els.current.copy, { box: 'border-box' })
     portrait.addEventListener('change', measure)
     window.addEventListener('scroll', onScroll, { passive: true })
 

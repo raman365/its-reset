@@ -1,0 +1,101 @@
+.journal {
+  background: var(--paper);
+}
+.journal__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+.journal__head > div {
+  display: grid;
+  gap: 20px;
+}
+.journal__title {
+  font-size: clamp(40px, 5vw, 80px);
+  max-width: 14ch;
+}
+.journal__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+}
+.post {
+  display: grid;
+  gap: 14px;
+  text-decoration: none;
+}
+.post__cover {
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.post__cover svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: transform 1.2s var(--ease-out);
+}
+.post:hover .post__cover svg {
+  transform: scale(1.06);
+}
+.cover-sun {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 1.2s var(--ease-out);
+}
+.post:hover .cover-sun {
+  transform: scale(1.18);
+}
+.post__meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.post__meta span + span::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin: 0 14px 2px 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+.post__title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: clamp(26px, 2.2vw, 32px);
+  line-height: 1.12;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.7s var(--ease-out);
+  justify-self: start;
+}
+.post:hover .post__title {
+  background-size: 100% 1px;
+}
+.post__excerpt {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+.post__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+@media (max-width: 900px) {
+  .journal__grid {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+}

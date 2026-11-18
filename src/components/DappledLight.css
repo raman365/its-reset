@@ -1,0 +1,50 @@
+.dapple {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.dapple__shaft {
+  position: absolute;
+  inset: -20% -10%;
+  background: linear-gradient(
+    115deg,
+    transparent 18%,
+    rgba(255, 246, 232, 0.5) 30%,
+    rgba(255, 246, 232, 0.12) 42%,
+    transparent 48%,
+    transparent 56%,
+    rgba(255, 246, 232, 0.35) 64%,
+    transparent 74%
+  );
+  mix-blend-mode: soft-light;
+  animation: shaft 14s var(--ease-in-out) infinite alternate;
+}
+.dapple__leaves {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  filter: blur(9px);
+  opacity: 0.17;
+  mix-blend-mode: multiply;
+}
+.dapple__frond {
+  fill: #4d3a2b;
+  stroke: #4d3a2b;
+  stroke-width: 3;
+  transform-box: view-box;
+  animation: sway 7s var(--ease-in-out) infinite alternate;
+}
+.dapple__frond--0 { transform-origin: 0 0; }
+.dapple__frond--1 { transform-origin: 0 40%; animation-duration: 9s; animation-delay: -3s; }
+.dapple__frond--2 { transform-origin: 100% 0; animation-duration: 8s; animation-delay: -5s; }
+
+@keyframes sway {
+  0% { transform: rotate(-1.6deg) translate(0, 0); }
+  100% { transform: rotate(1.4deg) translate(10px, 6px); }
+}
+@keyframes shaft {
+  0% { transform: translateX(-3%); opacity: 0.8; }
+  100% { transform: translateX(3%); opacity: 1; }
+}

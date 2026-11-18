@@ -1,7 +1,7 @@
 .foot {
   position: relative;
   overflow: hidden;
-  padding: clamp(72px, 9vw, 120px) 0 28px;
+  padding: clamp(72px, 9vw, 120px) 0 calc(28px + env(safe-area-inset-bottom));
   background: var(--night);
   color: var(--bone);
 }
@@ -58,7 +58,7 @@
   display: flex;
   justify-content: center;
   align-items: baseline;
-  margin: clamp(50px, 7vw, 100px) 0 clamp(10px, 2vw, 20px);
+  margin: clamp(50px, 7vw, 100px) 0 clamp(20px, 3vw, 32px);
   font-size: 27vw;
   line-height: 0.8;
   letter-spacing: 0.04em;

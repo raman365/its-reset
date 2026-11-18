@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { marquee } from './content'
+import { pauseOffscreen } from './hooks/pauseOffscreen'
 import { startSmoothScroll } from './hooks/smoothScroll'
 import { BarrierLab } from './components/BarrierLab'
 import { Cursor } from './components/Cursor'
@@ -19,6 +20,7 @@ import './components/shared.css'
 
 export default function App() {
   useEffect(() => startSmoothScroll(), [])
+  useEffect(() => pauseOffscreen(), [])
   return (
     <>
       <a className="skip" href="#cream">

@@ -6,9 +6,8 @@ import './Story.css'
 
 function Word({ children, p, range }: { children: string; p: MotionValue<number>; range: [number, number] }) {
   const opacity = useTransform(p, range, [0.14, 1])
-  const blur = useTransform(p, range, ['blur(3px)', 'blur(0px)'])
   return (
-    <motion.span style={{ opacity, filter: blur }} className="story__w">
+    <motion.span style={{ opacity }} className="story__w">
       {children}
     </motion.span>
   )

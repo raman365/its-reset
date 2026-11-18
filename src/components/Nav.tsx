@@ -14,6 +14,14 @@ export function Nav() {
   useEffect(() => {
     let last = window.scrollY
     let ticking = false
+    let lastTheme = 0
+    const theme = () => {
+      // Which section sits under the bar decides light or dark styling
+      const els = document.elementsFromPoint(window.innerWidth / 2, 36)
+      const section = els.find((el) => !el.closest('.nav') && el.closest('[data-nav]'))
+      setDark(section?.closest<HTMLElement>('[data-nav]')?.dataset.nav === 'dark')
+    }
+    let trailing = 0
     const update = () => {
       ticking = false
       const y = window.scrollY
@@ -22,11 +30,13 @@ export function Nav() {
         last = y
       }
       setScrolled(y > 40)
-      // Which section sits under the bar decides light or dark styling
-      const els = document.elementsFromPoint(window.innerWidth / 2, 36)
-      const section = els.find((el) => !el.closest('.nav') && el.closest('[data-nav]'))
-      const theme = section?.closest<HTMLElement>('[data-nav]')?.dataset.nav
-      setDark(theme === 'dark')
+      const now = performance.now()
+      if (now - lastTheme > 120) {
+        lastTheme = now
+        theme()
+      }
+      window.clearTimeout(trailing)
+      trailing = window.setTimeout(theme, 140)
     }
     const onScroll = () => {
       if (!ticking) {
@@ -38,6 +48,7 @@ export function Nav() {
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
     return () => {
+      window.clearTimeout(trailing)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }

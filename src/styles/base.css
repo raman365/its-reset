@@ -267,7 +267,7 @@ button {
 /* Grain over everything for a printed, tactile finish */
 .grain {
   position: fixed;
-  inset: -50%;
+  inset: -10%;
   z-index: 100;
   pointer-events: none;
   opacity: 0.07;
@@ -277,10 +277,24 @@ button {
 @keyframes grain {
   0% { transform: translate(0, 0); }
   20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -4%); }
-  60% { transform: translate(-4%, -1%); }
+  40% { transform: translate(2%, -3%); }
+  60% { transform: translate(-3%, -1%); }
   80% { transform: translate(3%, 3%); }
   100% { transform: translate(0, 0); }
+}
+/* Phones: keep the texture, skip the flicker. It's a full-screen layer. */
+@media (hover: none) {
+  .grain {
+    inset: 0;
+    animation: none;
+  }
+}
+
+/* Nothing animates while its section is off screen (see pauseOffscreen) */
+[data-offscreen] *,
+[data-offscreen] *::before,
+[data-offscreen] *::after {
+  animation-play-state: paused !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

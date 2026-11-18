@@ -52,14 +52,27 @@ export function DappledLight({ className = '' }: { className?: string }) {
     ],
     [],
   )
+  // The blur lives inside each SVG, so it's painted once. The SVGs then only
+  // move as whole layers, which the GPU handles without repainting.
+  const layer = (ds: string[], id: string, cls: string) => (
+    <svg className={`dapple__leaves ${cls}`} viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <filter id={id} x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="8" />
+        </filter>
+      </defs>
+      <g filter={`url(#${id})`} className="dapple__frond">
+        {ds.map((d, i) => (
+          <path key={i} d={d} />
+        ))}
+      </g>
+    </svg>
+  )
   return (
     <div className={`dapple ${className}`} aria-hidden="true">
       <div className="dapple__shaft" />
-      <svg className="dapple__leaves" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-        {paths.map((d, i) => (
-          <path key={i} d={d} className={`dapple__frond dapple__frond--${i}`} />
-        ))}
-      </svg>
+      {layer(paths.slice(0, 2), 'dapple-blur-a', 'dapple__leaves--a')}
+      {layer(paths.slice(2), 'dapple-blur-b', 'dapple__leaves--b')}
     </div>
   )
 }

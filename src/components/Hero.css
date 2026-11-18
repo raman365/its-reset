@@ -152,16 +152,38 @@
   100% { transform: scale(3.6); opacity: 0; }
 }
 
-.hero__photo {
+.hero__stage[data-intro-done] .hero__ripple span,
+.hero__stage[data-intro-done] .hero__cue-line::after {
+  animation-play-state: paused;
+}
+
+.hero__photo,
+.hero__unshift {
   position: absolute;
   inset: 0;
+  will-change: transform;
+}
+.hero__photo {
   z-index: 2;
   overflow: hidden;
-  clip-path: circle(0px at 50% 50%);
-  will-change: clip-path;
-  background: var(--travertine);
+  pointer-events: none;
 }
-.hero__photo img {
+/* The round window. Scaled, never resized, so nothing repaints. */
+.hero__window {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  transform: scale(0);
+  will-change: transform;
+  isolation: isolate;
+}
+.hero__inner {
+  position: absolute;
+  will-change: transform;
+}
+.hero__inner img {
   position: absolute;
   top: 0;
   left: 0;
@@ -170,6 +192,7 @@
   max-width: none;
   object-fit: cover;
   will-change: transform;
+  backface-visibility: hidden;
 }
 .hero__ink {
   position: absolute;
@@ -188,11 +211,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: clamp(14px, 2.4vh, 24px);
-  padding: var(--nav-h) var(--gutter) 0;
+  gap: clamp(12px, 2.4vh, 24px);
+  padding: var(--nav-h) var(--gutter) clamp(24px, 4vh, 40px);
 }
 .hero__title {
-  font-size: clamp(34px, 3.9vw, 64px);
+  font-size: clamp(30px, min(3.9vw, 7.4vh), 64px);
   line-height: 1.02;
   max-width: 14ch;
 }
@@ -218,6 +241,33 @@
   .hero__lede--short { display: block; }
 }
 
+/* Phones held sideways: very little height, so keep the copy to the essentials */
+@media (min-aspect-ratio: 21/20) and (max-height: 500px) {
+  .hero__top {
+    padding-top: calc(var(--nav-h) + 4px);
+  }
+  .hero__copy {
+    gap: 10px;
+    padding: 60px var(--gutter) 20px;
+  }
+  .hero__title {
+    font-size: 26px;
+    max-width: 16ch;
+  }
+  .hero__lede--full,
+  .hero__lede--short {
+    display: none;
+  }
+  .hero__actions {
+    gap: 12px 20px;
+    margin-top: 4px;
+  }
+  .hero__actions .btn {
+    height: 44px;
+    padding: 0 20px;
+  }
+}
+
 /* Portrait screens: copy sits under the photo */
 @media (max-aspect-ratio: 21/20) {
   .hero__mark {
@@ -236,13 +286,15 @@
   .hero__cue {
     display: none;
   }
+  /* Sized by its content; the photo panel above makes room to match */
   .hero__copy {
-    top: 52%;
-    width: auto;
+    top: auto;
+    bottom: 0;
     right: 0;
+    width: auto;
     justify-content: flex-start;
     gap: 12px;
-    padding: 20px var(--gutter) 20px;
+    padding: 22px var(--gutter) calc(30px + env(safe-area-inset-bottom));
   }
   .hero__title {
     font-size: clamp(28px, 7.4vw, 44px);
@@ -252,6 +304,21 @@
   .hero__lede--short { display: block; font-size: 15px; }
   .hero__actions .btn {
     height: 48px;
+  }
+}
+
+/* Short phones: tighten the copy so the photo keeps its share */
+@media (max-aspect-ratio: 21/20) and (max-height: 720px) {
+  .hero__copy {
+    gap: 10px;
+    padding-top: 18px;
+  }
+  .hero__title {
+    font-size: clamp(26px, 6.8vw, 34px);
+  }
+  .hero__lede--short {
+    font-size: 14px;
+    line-height: 1.5;
   }
 }
 

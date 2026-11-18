@@ -175,7 +175,7 @@ export function BarrierLab() {
             <p className="lab__state-body">{state.body}</p>
           </div>
 
-          <svg viewBox={`0 0 ${W} ${H}`} className="lab__svg" role="img" aria-label={`Illustration of the skin barrier. ${state.label}. ${state.body}`}>
+          <svg viewBox={`0 0 ${W} ${H}`} className="lab__svg" data-smil="" role="img" aria-label={`Illustration of the skin barrier. ${state.label}. ${state.body}`}>
             <defs>
               <linearGradient id="lab-sky" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0" stopColor="#f6efe6" />

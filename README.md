@@ -33,10 +33,16 @@ Stack: Vite, React 19, TypeScript, [Motion](https://motion.dev) for animation, [
 
 ## Deploy
 
-It's a static site, so any static host works.
+**GitHub Pages (set up):** live at **https://raman365.github.io/its-reset/** once Pages is switched on.
 
-- **Vercel / Netlify:** import the repo. Build command `npm run build`, output directory `dist`.
-- **Anywhere else:** run `npm run build` and upload the `dist` folder.
+1. Repo **Settings → Pages → Build and deployment → Source: GitHub Actions** (one time only).
+2. Every push to the default branch builds and deploys through `.github/workflows/deploy-pages.yml`. To deploy without a push, run it from the **Actions** tab.
+
+The workflow builds with the right sub-path (`/its-reset/`) and an absolute share image, so the link shows a proper preview when you send it in WhatsApp, iMessage or Slack.
+
+The page has `noindex` set so this concept never shows up in Google next to the real itsreset.com. Remove that line from `index.html` if it becomes the real site.
+
+**Elsewhere:** it's a static site. On Vercel or Netlify, import the repo with build command `npm run build` and output `dist`.
 
 ## Editing
 
